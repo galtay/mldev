@@ -76,7 +76,6 @@ An example interactive session that will remove the container on exit is,
 docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm nvcr.io/nvidia/pytorch:23.09-py3
 ```
 
-
 ## Customize NVIDIA base Docker container
 
 see `Dockerfile`

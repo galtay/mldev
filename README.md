@@ -1,15 +1,16 @@
 # mldev
 
-One take on a docker powered ML dev environment.
+Notes and examples on setting up a reproducible ML dev environment.
 
-# Setup Nvidia ML dev environment
+# Core Components (Tested Version)
 
-These notes are tested on a system running Ubuntu 22.04.
+* Ubuntu (22.04)
+* NVIDIA driver (535)
+* Docker (24.06)
+* NVIDIA Container Toolkit (1.14.2)
+* NVIDIA GPU Cloud (NGC) Container (nvcr.io/nvidia/pytorch:23.09-py3)
 
-## Install Docker
-
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
-
+# Setup 
 
 ## Install NVIDIA driver
 
@@ -17,7 +18,22 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-o
 sudo apt-get install nvidia-driver-535
 ```
 
-this should provide CUDA Version: 12.2
+After installing the NVIDIA driver, the `nvidia-smi` command should show CUDA version 12.2, 
+```
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.113.01             Driver Version: 535.113.01   CUDA Version: 12.2     |
+```
+
+
+## Install Docker
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
+
+After installing Docker, you should be able to run the hello world image, 
+
+```bash
+docker run hello-world
+```
 
 
 ## Install NVIDIA Container Toolkit
@@ -28,7 +44,7 @@ https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install
 install-nct.sh
 ```
 
-test installation,
+After installing NVIDIA Container Toolkit, you should be able to run `nvidia-smi` from within a docker container,
 
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/sample-workload.html
 
@@ -36,23 +52,29 @@ https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/sample-
 docker run --rm --gpus all ubuntu nvidia-smi
 ```
 
-## NVIDIA base Docker containers
+## NVIDIA Docker Containers
 
-NGC is a container registry
+NVIDIA GPU Cloud (NGC) provides many Docker containers,
 
-https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch
+https://catalog.ngc.nvidia.com/orgs/nvidia/containers
+
+We tested with the `nvcr.io/nvidia/pytorch:23.09-py3` container
+
 https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch/tags
 
-testing was done with `nvcr.io/nvidia/pytorch:23.09-py3`
 
+A set of default base flags for docker run are,
+* `--gpus all`
+* `--ipc=host` or `--shm-size 1gb`
+* `--ulimit memlock=-1`
+* `--ulimit stack=67108864`
 
-Recommended base flags are, 
 
 ```bash
 docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864
 ```
 
-For interactive session with cleanup afterward, 
+An example interactive session that will remove the container on exit is, 
 
 ```bash
 docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm nvcr.io/nvidia/pytorch:23.09-py3

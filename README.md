@@ -70,10 +70,6 @@ A set of default base flags for docker run are,
 * `--ulimit stack=67108864`
 
 
-```bash
-docker run --gpus all --ipc=host --ulimit memlock=-1 --ulimit stack=67108864
-```
-
 An example interactive session that will remove the container on exit is, 
 
 ```bash

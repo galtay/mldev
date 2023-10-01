@@ -1,0 +1,7 @@
+accelerate==0.23.0
+auto-gptq==0.4.2
+bitsandbytes==0.41.1
+flash-attn==2.3.0
+optimum==1.13.2
+rich==13.6.0
+transformers==4.33.3

@@ -44,8 +44,8 @@ def load_bnb_int8(model_id):
     return model
 
 
-model_id = "/cache/hf-model-repos/Llama-2-7b-chat-hf"
-#model_id = "/cache/hf-model-repos/Llama-2-13b-chat-hf"
+model_id = "/data/hf-model-repos/Llama-2-7b-chat-hf"
+#model_id = "/data/hf-model-repos/Llama-2-13b-chat-hf"
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 
